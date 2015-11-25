@@ -9,5 +9,5 @@ branches:
 
 before_install:
   - docker build -t hnakamur/nodejsrpm .
-  - docker run "$COPR_LOGIN" "$COPR_USERNAME" "$COPR_TOKEN"
+  - docker run hnakamur/nodejsrpm "$COPR_LOGIN" "$COPR_USERNAME" "$COPR_TOKEN"
 
