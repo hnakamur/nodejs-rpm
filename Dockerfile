@@ -1,15 +1,19 @@
 FROM centos:7
-MAINTAINER Kazuhisa Hara <kazuhisya@gmail.com>
+MAINTAINER Hiroaki Nakamura <hnakamur@gmail.com>
 
-RUN yum install -y yum-utils rpmdevtools make git
-COPY / /nodejs-rpm
-WORKDIR /nodejs-rpm
+RUN yum -y install rpmdevtools rpm-build \
+ && rpmdev-setuptree
 
-RUN yum-builddep -y ./nodejs.spec
-RUN make rpm
-RUN yum install -y \
-        --nogpgcheck \
-        ./dist/RPMS/x86_64/nodejs-[^d.+].* \
-        ./dist/RPMS/x86_64/nodejs-npm-[^d.+].* \
-        ./dist/RPMS/x86_64/nodejs-devel-[^d.+].*
-CMD ["node", "-v"]
+RUN yum -y install epel-release \
+ && yum -y install python-pip \
+ && pip install copr-cli
+
+ADD nodejs.spec /root/rpmbuild/SPECS/
+ADD node-js.*patch /root/rpmbuild/SOURCES/
+
+RUN version=`awk '$1=="Version:" {print $2}' /root/rpmbuild/SPECS/nodejs.spec` \
+ && curl -sL -o /root/rpmbuild/SOURCES/node-v${version}.tar.xz https://nodejs.org/dist/v${version}/node-v${version}.tar.xz \
+ && rpmbuild -bs /root/rpmbuild/SPECS/nodejs.spec
+
+ADD copr-build.sh /root/
+ENTRYPOINT ["/bin/bash", "/root/copr-build.sh"]
