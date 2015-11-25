@@ -1,0 +1,12 @@
+sudo: required
+
+services:
+  - docker
+
+branches:
+  only:
+    - LTS
+
+before_install:
+  - docker build -t hnakamur/nodejsrpm .
+  - docker run "$COPR_LOGIN" "$COPR_USERNAME" "$COPR_TOKEN"
