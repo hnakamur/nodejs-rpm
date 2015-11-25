@@ -12,7 +12,7 @@ Packager:      Kazuhisa Hara <kazuhisya@gmail.com>
 Group:         Development/Libraries
 License:       MIT License
 URL:           https://nodejs.org
-Source0:       %{url}/dist/v%{version}/%{_base}-v%{version}.tar.gz
+Source0:       %{url}/dist/v%{version}/%{_base}-v%{version}.tar.xz
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-tmp
 Prefix:        /usr
 BuildRequires: redhat-rpm-config
