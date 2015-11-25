@@ -19,7 +19,7 @@ Packager:      Kazuhisa Hara <kazuhisya@gmail.com>
 Group:         Development/Libraries
 License:       MIT License
 URL:           https://nodejs.org
-Source0:       %{url}/dist/v%{version}/%{_base}-v%{version}.tar.gz
+Source0:       %{url}/dist/v%{version}/%{_base}-v%{version}.tar.xz
 BuildRoot:     %{_tmppath}/%{name}-%{version}-%{release}-tmp
 Prefix:        /usr
 BuildRequires: redhat-rpm-config
@@ -113,9 +113,9 @@ fi
 make binary %{?_smp_mflags}
 
 pushd $RPM_SOURCE_DIR
-mv $RPM_BUILD_DIR/%{_base}-v%{version}/%{_base}-v%{version}-linux-%{_node_arch}.tar.gz .
+mv $RPM_BUILD_DIR/%{_base}-v%{version}/%{_base}-v%{version}-linux-%{_node_arch}.tar.xz .
 rm -rf %{_base}-v%{version}
-tar zxvf %{_base}-v%{version}-linux-%{_node_arch}.tar.gz
+tar zxvf %{_base}-v%{version}-linux-%{_node_arch}.tar.xz
 popd
 
 %install
@@ -130,7 +130,7 @@ done
 mv $RPM_BUILD_ROOT%{_defaultdocdir}/node/* $RPM_BUILD_ROOT%{_defaultdocdir}/%{_base}-v%{version}/
 rm -rf $RPM_BUILD_ROOT%{_defaultdocdir}/node
 mkdir -p $RPM_BUILD_ROOT%{_datarootdir}/%{_base}js
-mv $RPM_SOURCE_DIR/%{_base}-v%{version}-linux-%{_node_arch}.tar.gz $RPM_BUILD_ROOT%{_datarootdir}/%{_base}js/
+mv $RPM_SOURCE_DIR/%{_base}-v%{version}-linux-%{_node_arch}.tar.xz $RPM_BUILD_ROOT%{_datarootdir}/%{_base}js/
 
 # prefix all manpages with "npm-"
 pushd $RPM_BUILD_ROOT%{_libdir}/node_modules/npm/man/
@@ -162,7 +162,7 @@ rm -rf $RPM_SOURCE_DIR/%{_base}-v%{version}-linux-%{_node_arch}
 
 %files binary
 %defattr(-,root,root,-)
-%{_datarootdir}/%{_base}js/%{_base}-v%{version}-linux-%{_node_arch}.tar.gz
+%{_datarootdir}/%{_base}js/%{_base}-v%{version}-linux-%{_node_arch}.tar.xz
 
 %files npm
 %defattr(-,root,root,-)

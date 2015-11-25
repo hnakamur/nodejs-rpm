@@ -13,8 +13,8 @@ COPY / /nodejs-rpm
 WORKDIR /nodejs-rpm
 
 RUN rpmdev-setuptree
-RUN curl -OLk https://nodejs.org/dist/v$(grep Version: nodejs.spec | tr -s " "| cut -d " " -f 2)/node-v$(grep Version: nodejs.spec | tr -s " "| cut -d " " -f 2).tar.gz
-RUN cp *.patch ~/rpmbuild/SOURCES/ ; cp *.md ~/rpmbuild/SOURCES/ ; cp *.tar.gz ~/rpmbuild/SOURCES/
+RUN curl -OLk https://nodejs.org/dist/v$(grep Version: nodejs.spec | tr -s " "| cut -d " " -f 2)/node-v$(grep Version: nodejs.spec | tr -s " "| cut -d " " -f 2).tar.xz
+RUN cp *.patch ~/rpmbuild/SOURCES/ ; cp *.md ~/rpmbuild/SOURCES/ ; cp *.tar.xz ~/rpmbuild/SOURCES/
 RUN scl enable devtoolset-2 'rpmbuild -ba ./nodejs.spec'
 RUN yum install -y \
         --nogpgcheck \

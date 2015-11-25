@@ -96,7 +96,7 @@ $ sudo yum install -y devtoolset-2-gcc-c++ devtoolset-2-binutils python27
 $ git clone https://github.com/kazuhisya/nodejs-rpm.git
 $ cd nodejs-rpm
 $ rpmdev-setuptree
-$ curl -OLk https://nodejs.org/dist/vX.X.X/node-vX.X.X.tar.gz
-$ cp *.patch ~/rpmbuild/SOURCES/ ; cp *.md ~/rpmbuild/SOURCES/ ; cp *.tar.gz ~/rpmbuild/SOURCES/ 
+$ curl -OLk https://nodejs.org/dist/vX.X.X/node-vX.X.X.tar.xz
+$ cp *.patch ~/rpmbuild/SOURCES/ ; cp *.md ~/rpmbuild/SOURCES/ ; cp *.tar.xz ~/rpmbuild/SOURCES/ 
 $ scl enable devtoolset-2 'rpmbuild -ba ./nodejs.spec'
 ```
