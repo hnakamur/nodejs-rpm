@@ -80,3 +80,4 @@ $ curl -OL https://nodejs.org/dist/vX.X.X/node-vX.X.X.tar.gz
 $ cp *.patch ~/rpmbuild/SOURCES/ ; cp *.md ~/rpmbuild/SOURCES/ ; cp *.tar.gz ~/rpmbuild/SOURCES/ 
 $ scl enable devtoolset-2 'rpmbuild -ba ./nodejs.spec'
 ```
+
