@@ -5,10 +5,12 @@ services:
 
 branches:
   only:
+    - master
     - LTS
 
 install:
   - docker build -t hnakamur/nodejsrpm .
-  - docker run hnakamur/nodejsrpm "$COPR_LOGIN" "$COPR_USERNAME" "$COPR_TOKEN"
 
-script: true
+script:
+  - case $TRAVIS_BRANCH in master) project=nodejs5;; LTS) project=nodejs;; esac
+  - docker run hnakamur/nodejsrpm "$COPR_LOGIN" "$COPR_USERNAME" "$COPR_TOKEN" "$project"
