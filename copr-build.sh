@@ -3,8 +3,8 @@ set -e
 copr_login=$1
 copr_username=$2
 copr_token=$3
+project_name=$4
 
-project_name=nodejs5
 spec_file=/root/rpmbuild/SPECS/nodejs.spec
 
 mkdir -p /root/.config
@@ -24,3 +24,5 @@ version=`awk '$1=="Version:" {print $2}' ${spec_file}`
 release=$(rpm --eval `awk '$1=="Release:" {print $2}' ${spec_file}`)
 srpm_file=/root/rpmbuild/SRPMS/nodejs-${version}-${release}.src.rpm
 copr-cli build --nowait ${project_name} ${srpm_file}
+
+rm /root/.config/copr
