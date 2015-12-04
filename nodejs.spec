@@ -179,6 +179,8 @@ rm -rf $RPM_SOURCE_DIR/%{_base}-v%{version}-linux-%{_node_arch}
 %{tapsetroot}
 
 %changelog
+* Sat Dec  5 2015 Hiroaki Nakamura <hnakamur@gmail.com> - 5.1.1-1
+- Updated to node.js version 5.1.1
 * Wed Nov 18 2015 Kazuhisa Hara <kazuhisya@gmail.com> - 5.1.0-1
 - Updated to node.js version 5.1.0
 * Wed Nov 18 2015 Kazuhisa Hara <kazuhisya@gmail.com> - 5.0.0-2
