@@ -16,6 +16,9 @@ token = ${copr_token}
 copr_url = https://copr.fedoraproject.org
 EOF
 
+# See https://urllib3.readthedocs.org/en/latest/security.html#without-modifying-code
+export PYTHONWARNINGS="ignore:Unverified HTTPS request"
+
 status=`curl -s -o /dev/null -w "%{http_code}" https://copr.fedoraproject.org/api/coprs/${copr_username}/${project_name}/detail/`
 if [ $status = "404" ]; then
   copr-cli create --chroot epel-7-x86_64 --description 'node.js repository' ${project_name}
