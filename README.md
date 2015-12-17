@@ -1,102 +1,67 @@
-#  node.js RPM spec
+nodejs-rpm
+==========
 
-[![Circle CI](https://circleci.com/gh/kazuhisya/nodejs-rpm.svg?style=shield)](https://circleci.com/gh/kazuhisya/nodejs-rpm)
+A Dockerfile to build [Node.js](https://nodejs.org/en/) rpm for CentOS7 using [fedora copr](https://copr.fedoraproject.org/).
 
-- node.js rpm spec : https://github.com/kazuhisya/nodejs-rpm
-- node.js source   : https://nodejs.org/dist/
+## Setup
 
+1. Copy `.envrc.example` to `.envrc`.
+2. Go https://copr.fedoraproject.org/api/ and login in and see the values to set.
+3. Then modify `.envrc`
 
-# Building the RPM
+## Usage: How to build rpms
 
-## Distro support
+### Build docker image
 
-### Tested
+To build the docker image to build the srpm or rpm files, run the following command.
 
-- RHEL/CentOS 7 x86_64
-
-### Probably it works
-
-- Fedora20 x86_64 or later (maybe)
-
-- RHEL/CentOS/SL/OL 6 x86_64
-    - when you try to build on el6, can use `devtoolset-3` and `SCL` repository
-        - Developer Toolset 3
-            - RHEL6.x: [Red Hat Developer Toolset 3](https://access.redhat.com/documentation/en-US/Red_Hat_Developer_Toolset/3/)
-            - CentOS6.x: [Devtoolset-3](https://www.softwarecollections.org/en/scls/rhscl/devtoolset-3/)
-        - Software Collections
-            - RHEL6.x: [Red Hat Software Collections](https://access.redhat.com/documentation/en-US/Red_Hat_Software_Collections/index.html)
-            - CentOS6.x: install `centos-release-SCL` package
-    - `devtoolset-3-gcc-c++`, `devtoolset-3-binutils`, `python27`
-
-- RHEL/CentOS/SL/OL 5 x86_64
-    - when you try to build on el5, you can use `devtoolset-2` and `python27`
-        - Developer Toolset 2
-            - RHEL5.x: [Red Hat Developer Toolset 2](https://access.redhat.com/documentation/en-US/Red_Hat_Developer_Toolset/2/)
-            - CentOS5.x: [devtools-2](http://people.centos.org/tru/devtools-2/readme)
-        - Python 2.7
-            - [IUS Community Project](https://ius.io/)
-	- `devtoolset-2-gcc-c++`, `devtoolset-2-binutils`, `python27`
-
-
-
-### Prerequisites:
-
-- Python 2.7
-- `gcc` and `g++` 4.8 or newer
-
-## Docker (el7, el6, el5)
-
-- See also: [docker/README.md](https://github.com/kazuhisya/nodejs-rpm/blob/master/docker/README.md)
-- You can also try this:  [Docker Hub kazuhisya/nodejs-rpm](https://hub.docker.com/r/kazuhisya/nodejs-rpm/) (el7 only)
-
-## Build (el7, el6)
-
-setting up:
-
-```bash
-$ sudo yum install -y yum-utils rpmdevtools make
+```
+./docker_wrapper.sh build
 ```
 
-git clone and make:
+### Build rpms interactively
 
-```bash
-$ git clone https://github.com/kazuhisya/nodejs-rpm.git
-# If you want to use the LTS version: git clone -b LTS https://github.com/kazuhisya/nodejs-rpm.git
-$ cd nodejs-rpm
-$ sudo yum-builddep ./nodejs.spec
+To try building rpm files with mock, run the following command.
+
+```
+source .envrc
+./docker_wrapper.sh bash
 ```
 
-el7:
+Then in the docker container, run the fowllowing command to build rpms with mock.
 
-```bash
-$ make rpm
+```
+./build.sh mock
 ```
 
-el6 : with Software Collections and Devtoolset
+If the build finish successfully, run the following command to upload the srpm file to copr.
 
-```bash
-$ scl enable python27 devtoolset-3 'make rpm'
+```
+./build.sh copr
 ```
 
-install package:
+### Build srpm and upload it to copr
 
-```bash
-$ cd ./dist/RPMS/x86_64/
-$ sudo yum install ./nodejs-X.X.X-X.el6.x86_64.rpm ./nodejs-npm-X.X.X-X.el6.x86_64.rpm --nogpgcheck
+If you are sure your rpms will be built successfully,
+skip the above section "Build rpms interactively" and run the following command
+to run the docker image to build the srpm file and upload it to copr.
+
+```
+source .envrc
+./docker_wrapper.sh run
 ```
 
-## Build (el5)
+## NOTE: Using direnv
 
-el5 : with Devtoolset and python27
+I recommend you to use [direnv/direnv](https://github.com/direnv/direnv)
+instead of running `source .envrc` yourself.
 
-```bash
-$ sudo yum install -y epel-release ius-release
-$ sudo yum install -y yum-utils rpmdevtools redhat-rpm-config tar make openssl-devel libstdc++-devel zlib-devel gzip 
-$ sudo yum install -y devtoolset-2-gcc-c++ devtoolset-2-binutils python27
-$ git clone https://github.com/kazuhisya/nodejs-rpm.git
-$ cd nodejs-rpm
-$ rpmdev-setuptree
-$ curl -OLk https://nodejs.org/dist/vX.X.X/node-vX.X.X.tar.gz
-$ cp *.patch ~/rpmbuild/SOURCES/ ; cp *.md ~/rpmbuild/SOURCES/ ; cp *.tar.gz ~/rpmbuild/SOURCES/ 
-$ scl enable devtoolset-2 'rpmbuild -ba ./nodejs.spec'
-```
+## Modify this scripts to build other rpms
+
+1. Edit `imagename` in `docker_wrapper.sh`
+2. See NOTE comments in `script/build.sh` and edit variables and commands
+3. Put the spec file in the `SPECS` directory
+4. Put the source files in the `SOURCES` directory
+
+## License
+MIT
