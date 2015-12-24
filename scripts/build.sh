@@ -4,8 +4,8 @@ set -eu
 rpm_name=nodejs
 arch=x86_64
 
-copr_project_name=nodejs5
-copr_project_description="[Node.js](https://nodejs.org/en/) stable version v5.x"
+copr_project_name=nodejs
+copr_project_description="[Node.js](https://nodejs.org/en/) LTS version v4.x"
 
 copr_project_instructions="\`\`\`
 sudo curl -sL -o /etc/yum.repos.d/${COPR_USERNAME}-${copr_project_name}.repo https://copr.fedoraproject.org/coprs/${COPR_USERNAME}/${copr_project_name}/repo/epel-7/${COPR_USERNAME}-${copr_project_name}-epel-7.repo
