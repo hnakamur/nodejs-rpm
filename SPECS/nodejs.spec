@@ -171,6 +171,7 @@ rm -rf $RPM_SOURCE_DIR/%{_base}-v%{version}-linux-%{_node_arch}
 
 %doc
 %{_mandir}/man1/npm*
+%{_mandir}/man3/npm*
 %{_mandir}/man5
 %{_mandir}/man7
 
