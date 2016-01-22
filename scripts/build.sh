@@ -83,7 +83,8 @@ build_rpm_on_copr() {
       https://copr.fedoraproject.org/api/coprs/${COPR_USERNAME}/new/
   fi
   # Add a new build on copr with uploading a srpm file.
-  curl -s -X POST -u "${COPR_LOGIN}:${COPR_TOKEN}" \
+  curl -v -X POST -u "${COPR_LOGIN}:${COPR_TOKEN}" \
+    -H "Expect:" \
     -F "${mock_chroot}=y" \
     -F "pkgs=@${topdir}/SRPMS/${srpm_file};type=application/x-rpm" \
     https://copr.fedoraproject.org/api/coprs/${COPR_USERNAME}/${copr_project_name}/new_build_upload/
