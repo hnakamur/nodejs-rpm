@@ -18,12 +18,12 @@ build)
   docker build -t $imagename .
   ;;
 run)
-  # NOTE: We need SYS_ADMIN capability to build rpm with mock
-  docker run --cap-add=SYS_ADMIN -e "COPR_LOGIN=$COPR_LOGIN" -e "COPR_USERNAME=$COPR_USERNAME" -e "COPR_TOKEN=$COPR_TOKEN" -it $imagename
+  # NOTE: We need privileged option to build rpm with mock
+  docker run --privileged -e "COPR_LOGIN=$COPR_LOGIN" -e "COPR_USERNAME=$COPR_USERNAME" -e "COPR_TOKEN=$COPR_TOKEN" -it $imagename
   ;;
 bash)
-  # NOTE: We need SYS_ADMIN capability to build rpm with mock
-  docker run --cap-add=SYS_ADMIN -e "COPR_LOGIN=$COPR_LOGIN" -e "COPR_USERNAME=$COPR_USERNAME" -e "COPR_TOKEN=$COPR_TOKEN" -it $imagename /bin/bash
+  # NOTE: We need privileged option to build rpm with mock
+  docker run --privileged -e "COPR_LOGIN=$COPR_LOGIN" -e "COPR_USERNAME=$COPR_USERNAME" -e "COPR_TOKEN=$COPR_TOKEN" -it $imagename /bin/bash
   ;;
 *)
   usage
