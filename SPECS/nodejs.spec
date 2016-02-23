@@ -12,7 +12,7 @@
 %global tapsetdir %{tapsetroot}/tapset/%{_build_cpu}
 
 Name:          %{_base}js
-Version:       5.6.0
+Version:       5.7.0
 Release:       1%{?dist}
 Summary:       Node.js is a server-side JavaScript environment that uses an asynchronous event-driven model.
 Packager:      Kazuhisa Hara <kazuhisya@gmail.com>
@@ -36,6 +36,12 @@ BuildRequires: python
 %if "%{_dist_ver}" == ".el5"
 # require EPEL
 BuildRequires: python27
+%endif
+
+%if "%{_dist_ver}" == ".el6"
+BuildRequires: python27-python
+BuildRequires: scl-utils-build
+BuildRequires: devtoolset-3-gcc-c++
 %endif
 
 Patch0: node-js.centos5.configure.patch
@@ -105,12 +111,25 @@ if [ -z %{_node_arch} ];then
   exit 1
 fi
 
+%if "%{_dist_ver}" == ".el6"
+scl enable python27 devtoolset-3 'bash -c "
+./configure \
+    --shared-openssl \
+    --shared-openssl-includes=%{_includedir} \
+    --shared-zlib \
+    --shared-zlib-includes=%{_includedir} && \
+make binary %{?_smp_mflags}
+"'
+%else
+
 ./configure \
     --shared-openssl \
     --shared-openssl-includes=%{_includedir} \
     --shared-zlib \
     --shared-zlib-includes=%{_includedir}
 make binary %{?_smp_mflags}
+
+%endif
 
 pushd $RPM_SOURCE_DIR
 mv $RPM_BUILD_DIR/%{_base}-v%{version}/%{_base}-v%{version}-linux-%{_node_arch}.tar.gz .
@@ -179,6 +198,8 @@ rm -rf $RPM_SOURCE_DIR/%{_base}-v%{version}-linux-%{_node_arch}
 %{tapsetroot}
 
 %changelog
+* Thu Feb 25 2016 Hiroaki Nakamura <hnakamur@gmail.com> - 5.7.0-1
+- Updated to node.js version 5.7.0
 * Wed Feb 10 2016 Hiroaki Nakamura <hnakamur@gmail.com> - 5.6.0-1
 - Updated to node.js version 5.6.0
 * Sat Jan 23 2016 Hiroaki Nakamura <hnakamur@gmail.com> - 5.5.0-1

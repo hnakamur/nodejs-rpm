@@ -1,6 +1,6 @@
 #!/bin/sh
 set -eu
-imagename=nodejsrpm
+imagename=nodejs5rpm
 
 usage() {
   cat <<'EOF' 1>&2
