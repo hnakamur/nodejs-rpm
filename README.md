@@ -1,6 +1,8 @@
 nodejs-rpm
 ==========
 
+DEPRECATION NOTICE: I found the [nodesource/distributions: NodeSource Node.js Binary Distributions](https://github.com/nodesource/distributions) so I will not update this repository any more.
+
 A Dockerfile to build [Node.js](https://nodejs.org/en/) rpm for CentOS7 using [fedora copr](https://copr.fedoraproject.org/).
 
 ## Setup
